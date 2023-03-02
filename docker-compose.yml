@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=tasksmenager
+      - POSTGRES_USER=tasksmenager
+      - POSTGRES_PASSWORD=tasksmenager123
+  web:
+      build: .
+      command: python manage.py runserver 0.0.0.0:8000  # nasłuchuj na dowolnym adresie IP na porcie 8000 
+      volumes:
+        - :/code/
+      ports:
+        - "8000:8000"  # port na localhostcie : port na którym odpowiada kontener
+      depends_on:
+        - db

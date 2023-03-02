@@ -1,0 +1,21 @@
+{% extends 'template.html' %}
+{% load static %}
+
+{% block taskuser %}
+
+    {% if zadania_uzytkownika %}
+
+        {% for task in zadania_uzytkownika %}
+            
+            <div class="col-lg-12">
+                <strong>Tytuł: </strong>{{task.title}}
+				<strong>Opis: </strong>{{task.description}}
+				<strong>Status: </strong>{{task.status}}
+				<strong>Użytkownik </strong>{{task.user}}
+				<strong>Data ważności: </strong>{{task.expiry_date}}
+            </div> 
+        {% endfor %}
+
+    {% endif %}
+
+{% endblock taskuser %}
