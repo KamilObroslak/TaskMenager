@@ -1,7 +1,36 @@
-.categories-title{
+.container{
     text-align: center;
 }
 
-.container{
+.info{
+    text-align: center;
+}
+
+.logout{
+    text-align: right;
+    font-size: 25px;
+    color: rgb(252, 60, 60);
+    float: right;
+}
+
+.col-lg-3{
+    text-align: left;
+    float: left;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.col-lg-2{
+    text-align: left;
+    float: left;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.mail{
     text-align: center;
 }

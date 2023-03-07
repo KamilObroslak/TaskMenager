@@ -1,0 +1,39 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block taskdetails %}
+
+    {% if zadanie %}
+        <div class="col-lg-12">
+            <div class="col-lg-3">
+                {{zadanie.title}}
+            </div>
+
+            <div class="col-lg-3" style="-webkit-line-clamp: 10;">
+                {{zadanie.description}}
+            </div>
+
+            <div class="col-lg-2">
+                {{zadanie.status}}
+            </div>
+
+            <div class="col-lg-2">
+                {{zadanie.user}}
+            </div>
+
+            <div class="col-lg-2">
+                {{zadanie.expiry_date}}
+            </div>
+
+            <br>
+            <br>
+            <br>
+            <br>
+            <button>Edytuj</button>
+            <button>Wyślij email</button>
+            <button>Usuń</button>
+            <hr>
+
+        </div>
+    {% endif %}
+
+{% endblock taskdetails %}

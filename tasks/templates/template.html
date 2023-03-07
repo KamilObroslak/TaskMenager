@@ -15,43 +15,37 @@
 
 <body>
 	<header>
-		<h1 class="categories-title">Tasksmenager ->Strona jeszcze w budowie ;-)</h1>
+		<div class="col-lg-12">
+			<div class="info">
+				<h1 class="categories-title">Tasksmenager ->Strona jeszcze w budowie ;-)</h1><br>
+				<h2 id="hello-msg">&nbsp &nbsp Zalogowany użytkownik: {{request.user}}</h2>
+			</div>
+
+			<div class="logout">
+				<button><a href="{% url 'logout' %}">&nbsp &nbsp Wyloguj</a></button>
+			</div>
+		</div>
+
 	</header>
 
 	<div class="container">
 		<a href = "/tasks">
-       		<h1> Wszystkie zadania + API </h1><br>
+       		<button><h1> Wszystkie zadania + API </h1></button>
 		</a>
-
-		{% for i in zadania %}
-			<div class="col-lg-12">
-				<strong>Tytuł: </strong>{{i.title}}
-				<strong>Opis: </strong>{{i.description}}
-				<strong>Status: </strong>{{i.status}}
-				<strong>Użytkownik </strong>{{i.user}}
-				<strong>Data ważności: </strong>{{i.expiry_date}}
-			</div> 
-		{% endfor %}
-
-
-		<a href = "/users">
-			<button> Użytkownicy </button><br>
-		</a>
-
-		{% for i in uzytkownicy %}
-			<div class="col-lg-12">
-				<a href = "/taskuser/{{i.id}}">
-					{{i.username}}
-				</a>
-			</div>
-		{% endfor %}
-
-		{% block taskuser %}   {% endblock taskuser %}
-
+		<br>
 		<br>
 		<a href = "/task/api">
 			<button>API</button>
 	 	</a>
+		<a href = "/users">
+			<button> Użytkownicy </button>
+		</a>
+
+		{% block tasks %}   {% endblock tasks %}
+		{% block users %}   {% endblock users%}
+		{% block taskuser %}   {% endblock taskuser %}
+		{% block taskdetails %}   {% endblock taskdetails %}
+		{% block sendEmail %}   {% endblock sendEmail%}
 
 	</div>
 </body>

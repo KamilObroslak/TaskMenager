@@ -2,20 +2,36 @@
 {% load static %}
 
 {% block taskuser %}
-
     {% if zadania_uzytkownika %}
+        <div class="col-lg-12">
+            {% for task in zadania_uzytkownika %}
 
-        {% for task in zadania_uzytkownika %}
-            
-            <div class="col-lg-12">
-                <strong>Tytuł: </strong>{{task.title}}
-				<strong>Opis: </strong>{{task.description}}
-				<strong>Status: </strong>{{task.status}}
-				<strong>Użytkownik </strong>{{task.user}}
-				<strong>Data ważności: </strong>{{task.expiry_date}}
-            </div> 
-        {% endfor %}
+                <div class="col-lg-3">
+                    <a href = "/taskdetails/{{task.id}}"><strong>Tytuł: </strong>{{task.title}}</a>
+                </div>
 
+                <div class="col-lg-3">
+                <strong>Opis: </strong>{{task.description}}
+                </div>
+
+                <div class="col-lg-2">
+                <strong>Status: </strong>{{task.status}}
+                </div>
+
+                <div class="col-lg-2">
+                <strong>Użytkownik: </strong>{{task.user}}
+                </div>
+
+                <div class="col-lg-2">
+                <strong>Data ważności: </strong>{{task.expiry_date}}
+                </div>
+
+                <button>Wyślij email</button>
+                <br>
+                <br>
+                <hr>
+
+            {% endfor %}
+        </div>
     {% endif %}
-
 {% endblock taskuser %}

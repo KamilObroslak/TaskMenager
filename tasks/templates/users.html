@@ -1,4 +1,15 @@
 {% extends 'template.html' %}
 {% load static %}
 {% block users %}
+    <br>
+    <br>
+    {% for i in uzytkownicy %}
+    <div class="col-lg-12">
+        Zadania użytkownika:
+        <a href = "/taskuser/{{i.id}}">
+            {{i.username}}
+        </a>
+        <hr>
+    </div>
+    {% endfor %}
 {% endblock users %}

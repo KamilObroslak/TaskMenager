@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from imaplib import _Authenticator
+from pyexpat.errors import messages
+from django.shortcuts import redirect, render
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
@@ -10,6 +12,10 @@ from rest_framework import viewsets
 from .serializer import TaskSerializer
 from django.contrib.auth.models import User
 from .models import Task
+from .forms import CreateUserForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
 
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -31,8 +37,7 @@ def sentEmail(request):
             port = 465  # port używany przez protokół ssl
             smtp_serwer = "smtp.gmail.com"
             sender = "kamilobroslak1@gmail.com"
-            recipient = "kamilobroslak2@gmail.com"  # mail do testów formy maila
-            #  recipient = i.user_id(User.email_user)
+            recipient = "kamilobroslak2@gmail.com"  # mail do testów formy maila i czy maile wychodza
             password = ""  # przy wpisaniu hasła do konta google maile wychodzą i nie pojawia się błąd
             subject = "Masz niedokonczone zadania"
             content = """<h1>Masz niedokonczone zadania</h1>
@@ -70,24 +75,77 @@ def sentEmail(request):
 
             return render(request, 'template.html')
 
-
+#  wymagany -> from django.contrib.auth.decorators import login_required
+@login_required(login_url='login')
 def tasks(request):
     tasks = Task.objects.all()
     data = {'zadania': tasks}
     return render(request, 'tasks.html', data)
 
 
+@login_required(login_url='login')
 def users(request):
     users = User.objects.all()
     data = {'uzytkownicy': users}
     return render(request, 'users.html', data)
 
 
+@login_required(login_url='login')
 def taskuser(request, id):
     user_tasks = User.objects.get(pk=id)
     user_task = Task.objects.filter(user_id=user_tasks)
-    tasks = Task.objects.all()
     data = {'wybor_uzytkownika': user_tasks,
-            'zadania_uzytkownika': user_task,
-            'wszystkie': tasks}
+            'zadania_uzytkownika': user_task}
     return render(request, 'taskuser.html', data)
+
+
+@login_required(login_url='login')
+def taskdetails(request, id):
+    task_details = Task.objects.get(pk=id)
+    task_detail = Task.objects.get(id=task_details.pk)
+    data = {'wybor_uzytkownika': task_details,
+            'zadanie': task_detail}
+    return render(request, 'taskdetails.html', data)
+
+
+def registerPage(request):
+    if request.user.is_authenticated:
+        return redirect('tasks/')
+    else:
+        form = CreateUserForm()
+        if request.method == 'POST':
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                user = form.cleaned_data.get('username')
+                messages.success(request, 'Account was created for' + user)
+
+                return redirect('login')
+
+        context = {'form': form}
+        return render(request, 'register.html', context)
+
+
+def loginPage(request):
+    if request.user.is_authenticated:
+        return redirect('/tasks')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('/tasks')
+            else:
+                messages.info(request, 'Username OR password is incorrect')
+
+        context = {}
+        return render(request, 'login.html', context)
+    
+
+def logoutUser(request):
+    logout(request)
+    return redirect('login')
