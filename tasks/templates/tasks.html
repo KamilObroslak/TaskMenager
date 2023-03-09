@@ -3,11 +3,11 @@
 {% block tasks %}
     {% for i in zadania %}
     <div class="col-lg-12">
-        
+
         <div class="col-lg-3">
             <a href = "/taskdetails/{{i.id}}"><strong>Tytuł: </strong>{{i.title}}</a>
         </div>
-        
+
         <div class="col-lg-3">
         <strong>Opis: </strong>{{i.description}}
         </div>
@@ -15,7 +15,7 @@
         <div class="col-lg-2">
         <strong>Status: </strong>{{i.status}}
         </div>
-        
+
         <div class="col-lg-2">
         <strong>Użytkownik </strong>{{i.user}}
         </div>
@@ -23,8 +23,6 @@
         <div class="col-lg-2">
         <strong>Data ważności: </strong>{{i.expiry_date}}
         </div>
-
-        <button class="mail">{{ sentEmail }}Wyślij email</button>
 
     <br>
     <br>

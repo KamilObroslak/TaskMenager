@@ -41,6 +41,8 @@
 			<button> Użytkownicy </button>
 		</a>
 
+		<button id="mail">Wyślij email do nierozwiązanych</button>
+
 		{% block tasks %}   {% endblock tasks %}
 		{% block users %}   {% endblock users%}
 		{% block taskuser %}   {% endblock taskuser %}
@@ -48,5 +50,16 @@
 		{% block sendEmail %}   {% endblock sendEmail%}
 
 	</div>
+
+	<script>
+		function mailbutton() {
+			 alert('Jeszcze nie wysłano maila bo nie wiem jak podpiąć funkcję :) !');
+		}
+		
+		var element = document.getElementById('mail');
+		element.onclick = mailbutton;
+	</script>
+
 </body>
+
 </html>

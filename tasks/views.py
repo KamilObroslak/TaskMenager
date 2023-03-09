@@ -1,5 +1,5 @@
 from imaplib import _Authenticator
-from pyexpat.errors import messages
+from django.contrib import messages
 from django.shortcuts import redirect, render
 from email import encoders
 from email.mime.base import MIMEBase
@@ -15,7 +15,6 @@ from .models import Task
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
 
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -38,11 +37,11 @@ def sentEmail(request):
             smtp_serwer = "smtp.gmail.com"
             sender = "kamilobroslak1@gmail.com"
             recipient = "kamilobroslak2@gmail.com"  # mail do testów formy maila i czy maile wychodza
-            password = ""  # przy wpisaniu hasła do konta google maile wychodzą i nie pojawia się błąd
+            password = "xdaeyqlxwbxlqbca"  # przy wpisaniu hasła do konta google maile wychodzą i nie pojawia się błąd
             subject = "Masz niedokonczone zadania"
             content = """<h1>Masz niedokonczone zadania</h1>
-                        <b>Sprawdz zadania przypisane do Ciebie.</b>
-                        W załączniku plik"""
+                        <b>Sprawdz zadania przypisane do Ciebie. Zadanie: </b>""" + i.title + """
+                        </b> W załączniku plik"""
 
             plik = "plik.txt"
 
@@ -75,11 +74,13 @@ def sentEmail(request):
 
             return render(request, 'template.html')
 
+
 #  wymagany -> from django.contrib.auth.decorators import login_required
 @login_required(login_url='login')
 def tasks(request):
     tasks = Task.objects.all()
     data = {'zadania': tasks}
+    sentEmail(request)
     return render(request, 'tasks.html', data)
 
 
@@ -144,7 +145,7 @@ def loginPage(request):
 
         context = {}
         return render(request, 'login.html', context)
-    
+
 
 def logoutUser(request):
     logout(request)
